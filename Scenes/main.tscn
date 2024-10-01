@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://6grs8il0n4qv"]
+[gd_scene load_steps=12 format=3 uid="uid://6grs8il0n4qv"]
 
 [ext_resource type="Texture2D" uid="uid://qgqu5gl73u4f" path="res://addons/kenney_prototype_textures/dark/texture_01.png" id="1_7qdwo"]
 [ext_resource type="Script" path="res://Scripts/CameraFollow.gd" id="2_5hqq0"]
@@ -24,6 +24,15 @@ height = 1.86
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_4bl67"]
 points = PackedVector3Array(0.331964, 0.722519, 0.109626, -0.387478, -0.60652, -0.0565245, -0.387779, -0.606993, 0.0536348, 0.359114, -0.693264, 0.0539109, 0.0536348, 0.606993, -0.387779, -0.219909, 0.600871, 0.326293, 0.0809998, -0.605214, 0.38379, 0.216639, -0.59994, -0.328717, -0.33308, 0.718581, -0.111954, -0.194164, -0.633209, -0.331811, -0.114939, -0.908354, 0.0552102, 0.35032, 0.541084, -0.190838, 0.187534, 0.567089, 0.349629, 0.11209, 0.909039, 0.0552529, -0.21991, -0.600873, 0.326294, -0.268797, 0.507932, -0.295548, -0.383498, 0.545729, 0.107627, 0.295051, -0.539162, 0.268152, 0.111218, -0.873802, -0.170553, 0.376598, 0.512887, 0.133486, 0.380372, -0.57268, -0.110482, 0.110533, 0.840402, -0.225505, -0.0838262, 0.604436, 0.383295, -0.170553, 0.873802, 0.111218, 0.110738, -0.841943, 0.222982, -0.0565251, -0.606527, -0.387483, -0.11337, 0.839677, -0.225312, 0.0543226, 0.810273, 0.27794, -0.382898, 0.544871, -0.110388, -0.327668, -0.598017, -0.218872, -0.328717, -0.599941, 0.216639, -0.110385, 0.544858, -0.382889)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_68mim"]
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_gf04g"]
+material = SubResource("StandardMaterial3D_68mim")
+radius = 0.03
+height = 63.386
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mtgmk"]
 albedo_texture = ExtResource("1_7qdwo")
 uv1_triplanar = true
@@ -48,11 +57,27 @@ mesh = SubResource("CapsuleMesh_x7nrt")
 shape = SubResource("ConvexPolygonShape3D_4bl67")
 
 [node name="Camera" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25314, 0)
 script = ExtResource("2_5hqq0")
 
-[node name="Camera" type="Camera3D" parent="Camera"]
+[node name="Camera" type="Node3D" parent="Camera"]
+
+[node name="Camera" type="Camera3D" parent="Camera/Camera"]
 transform = Transform3D(1, 0, 0, 0, 0.669131, 0.743145, 0, -0.743145, 0.669131, 0, 8.766, 8.808)
 current = true
+
+[node name="CameraRay" type="Node3D" parent="Camera"]
+transform = Transform3D(1, 0, 0, 0, 0.738455, 0.674302, 0, -0.674302, 0.738455, 0, 8.766, 11.008)
+
+[node name="CameraRay" type="RayCast3D" parent="Camera/CameraRay"]
+target_position = Vector3(0, 0, -50)
+collision_mask = 3
+debug_shape_custom_color = Color(0.764706, 0.478431, 0.921569, 1)
+
+[node name="RayVisible" type="MeshInstance3D" parent="Camera/CameraRay"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_gf04g")
 
 [node name="World" type="Node3D" parent="."]
 
@@ -66,5 +91,10 @@ material = SubResource("StandardMaterial3D_mtgmk")
 
 [node name="Building" type="CSGBox3D" parent="World" groups=["building"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)
+use_collision = true
+size = Vector3(5, 30, 5)
+
+[node name="Building2" type="CSGBox3D" parent="World" groups=["building"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, -7)
 use_collision = true
 size = Vector3(5, 30, 5)
