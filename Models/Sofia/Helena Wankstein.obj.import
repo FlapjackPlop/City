@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://ciau81f52o0py"
+path="res://.godot/imported/Helena Wankstein.obj-31a18d778a3313fbc22f01dba8a0f44f.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Helena Wankstein.obj-31a18d778a3313fbc22f01dba8a0f44f.mesh"]
+
+source_file="res://Models/Sofia/Helena Wankstein.obj"
+dest_files=["res://.godot/imported/Helena Wankstein.obj-31a18d778a3313fbc22f01dba8a0f44f.mesh", "res://.godot/imported/Helena Wankstein.obj-31a18d778a3313fbc22f01dba8a0f44f.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

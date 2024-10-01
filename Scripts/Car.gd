@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 @onready var front = $Front
 @onready var camera = $"../Camera"
+@onready var exit_point = $ExitPoint
 
 var speed = 10
 
@@ -10,27 +11,34 @@ var current_speed = 0
 
 var interactable = false
 var driving = false
+var exiting = false
 
 var driver = null
 
 func _physics_process(delta):
-	if interactable:
+	if interactable and !exiting:
 		if Input.is_action_just_released("interact"):
 			driving = true
 	
 	if driving:
 		drive(delta)
 		
-		interactable = false
 		driver.global_position = global_position
+		driver.collider.disabled = true
+		driver.hide()
+		
+		camera.change_fov(100,0.01)
 		
 		if Input.is_action_just_pressed("interact"):
 			driving = false
 			camera.driving = false
+			driver.collider.disabled = false
+			driver.global_position = exit_point.global_position
+			driver.show()
+			exiting = true
+			camera.change_fov(65,0.01)
 
 func drive(delta):
-	print(turn_degrees)
-	
 	camera.driving = true
 	
 	if Input.is_action_pressed("up"):
@@ -67,4 +75,4 @@ func _on_interaction_area_body_entered(body):
 func _on_interaction_area_body_exited(body):
 	if body.is_in_group("player"):
 		interactable = false
-		driver = null
+		exiting = false
