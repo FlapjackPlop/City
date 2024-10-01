@@ -1,10 +1,8 @@
 extends CharacterBody3D
 
-var speed = 5
+var speed = 4
 
 func _physics_process(delta):
-	print(Engine.get_frames_per_second())
-	
 	if Input.is_action_pressed("up"):
 		velocity.z = -speed
 	elif Input.is_action_pressed("down"):

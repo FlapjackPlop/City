@@ -8,11 +8,12 @@ extends Node3D
 var rotation_speed = 3
 
 var camera_moving = false
+var driving = false
 
 func _process(delta):
 	if camera_moving:
 		camera_to_player(delta)
-	rotate_camera(delta)
+	update_camera(delta)
 	
 	if global_position.distance_to(player.global_position) > 5 and !camera_moving:
 		camera_moving = true
@@ -23,19 +24,25 @@ func _process(delta):
 	if Input.is_action_pressed("camera_right"):
 		rotation.y += rotation_speed * delta
 
-func rotate_camera(delta):
+func update_camera(delta):
 	camera_ray_body.look_at(player.global_position)
 	
 	var body = camera_ray.get_collider()
 	
-	if body != null:
+	if body != null and !driving:
 		if body.is_in_group("building"):
-			camera.rotation_degrees.x = lerpf(camera.rotation_degrees.x,-35,0.1)
+			rotate_camera(-35)
 		else:
-			camera.rotation_degrees.x = lerpf(camera.rotation_degrees.x,0,0.1)
+			rotate_camera(0)
+	
+	if driving:
+		rotate_camera(-35)
 
 func camera_to_player(delta):
 	global_position = lerp(global_position, player.global_position, 2 * delta)
 	
-	if global_position.distance_to(player.global_position) < 0.5:
+	if global_position.distance_to(player.global_position) < 0.1:
 		camera_moving = false
+
+func rotate_camera(degrees):
+	camera.rotation_degrees.x = lerpf(camera.rotation_degrees.x,degrees,0.1)
