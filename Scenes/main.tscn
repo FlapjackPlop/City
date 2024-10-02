@@ -1,9 +1,10 @@
-[gd_scene load_steps=40 format=3 uid="uid://6grs8il0n4qv"]
+[gd_scene load_steps=44 format=3 uid="uid://6grs8il0n4qv"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_5rnlq"]
 [ext_resource type="Texture2D" uid="uid://qgqu5gl73u4f" path="res://addons/kenney_prototype_textures/dark/texture_01.png" id="1_7qdwo"]
 [ext_resource type="Script" path="res://Scripts/CameraFollow.gd" id="2_5hqq0"]
 [ext_resource type="Script" path="res://Scripts/PlayerController.gd" id="2_x6efw"]
+[ext_resource type="PackedScene" uid="uid://d3nfud3iemto7" path="res://Models/Map/Map.blend" id="3_wcu51"]
 [ext_resource type="Texture2D" uid="uid://4ch64g683cop" path="res://Models/Maccer/maccer.PNG" id="4_knu8q"]
 [ext_resource type="Script" path="res://Scripts/Car.gd" id="4_lwm81"]
 [ext_resource type="Texture2D" uid="uid://vaf2sx5csda1" path="res://Models/Toyota/vari/text.png" id="6_y3i6v"]
@@ -29,6 +30,15 @@ glow_enabled = true
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mtgmk"]
 albedo_texture = ExtResource("1_7qdwo")
 uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dj7qd"]
+size = Vector2(50, 7.3)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lyt2m"]
+size = Vector2(50, 5)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jgj0k"]
+size = Vector2(50, 3.5)
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_3r5f2"]
 dof_blur_far_enabled = true
@@ -1176,6 +1186,7 @@ _data = {
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_5rnlq")
+sofia_dialogue = "res://Dialogue/SofiaDialogue.txt"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_64erx")
@@ -1188,26 +1199,42 @@ shadow_enabled = true
 [node name="World" type="Node3D" parent="."]
 
 [node name="Floor" type="CSGBox3D" parent="World"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.53674e-07, 9.53674e-07)
 use_collision = true
 collision_layer = 2
 collision_mask = 2
-size = Vector3(50, 1, 50)
+size = Vector3(603.38, 1, 520.655)
 material = SubResource("StandardMaterial3D_mtgmk")
 
 [node name="Building" type="CSGBox3D" parent="World" groups=["building"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.0539, 0, -7)
 use_collision = true
 collision_layer = 3
 collision_mask = 3
 size = Vector3(5, 30, 5)
 
 [node name="Building2" type="CSGBox3D" parent="World" groups=["building"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, -7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.0539, 0, -7)
 use_collision = true
 collision_layer = 3
 collision_mask = 3
 size = Vector3(5, 30, 5)
+
+[node name="BigRoad" type="MeshInstance3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51269, 0)
+mesh = SubResource("PlaneMesh_dj7qd")
+
+[node name="MediumRoad" type="MeshInstance3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51269, 8.21846)
+visible = false
+mesh = SubResource("PlaneMesh_lyt2m")
+
+[node name="SmallRoad" type="MeshInstance3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51269, 14.2499)
+visible = false
+mesh = SubResource("PlaneMesh_jgj0k")
+
+[node name="Map" parent="World" instance=ExtResource("3_wcu51")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.51, 0)
 
 [node name="Camera" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25314, 0)
@@ -1604,7 +1631,7 @@ mesh = SubResource("ArrayMesh_83sg6")
 skeleton = NodePath("")
 
 [node name="Sofia" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36067, -2.75753)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 103, 1.36067, 98.4617)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Sofia"]
 shape = SubResource("BoxShape3D_vdwo3")

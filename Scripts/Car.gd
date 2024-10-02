@@ -49,11 +49,11 @@ func drive(delta):
 		current_speed = lerpf(current_speed, 0, 0.05)
 	
 	if Input.is_action_pressed("left"):
-		turn_degrees = lerpf(turn_degrees, 2, 0.05)
+		turn_degrees = lerpf(turn_degrees, 1, 0.05)
 		if current_speed > 5:
 			rotation_degrees.x = lerpf(rotation_degrees.x,-10,0.2)
 	if Input.is_action_pressed("right"):
-		turn_degrees = lerpf(turn_degrees, -2, 0.05)
+		turn_degrees = lerpf(turn_degrees, -1, 0.05)
 		if current_speed > 5:
 			rotation_degrees.x = lerpf(rotation_degrees.x,10,0.2)
 	if !Input.is_action_pressed("right") and !Input.is_action_pressed("left"):

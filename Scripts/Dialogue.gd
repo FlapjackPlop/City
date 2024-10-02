@@ -5,6 +5,8 @@ extends Control
 @onready var camera = $"../../Camera"
 
 var showing = false
+var talking = false
+var full_dialogue = ""
 var line = 0
 
 func _process(delta):
@@ -14,9 +16,17 @@ func _process(delta):
 		if Input.is_action_just_pressed("next"):
 			reset_dialogue()
 			line += 1
+	
+	if talking:
+		read_dialogue(full_dialogue)
 
-func read_dialogue(dialogue):
+func start_dialogue(dialogue):
+	talking = true
+	full_dialogue = dialogue
+
+func read_dialogue(txt):
 	camera.change_fov(30,0.01)
+	var dialogue = txt.split(";")
 	
 	if line < dialogue.size() and current_dialogue() == "":
 		var split_dialogue = dialogue[line].split("/")
@@ -25,7 +35,8 @@ func read_dialogue(dialogue):
 	elif line >= dialogue.size():
 		line = 0
 		camera.change_fov(65,0.01)
-		return true
+		talking = false
+		full_dialogue = ""
 
 func new_dialogue(speaker, text):
 	dialogue_text.visible_ratio = 0
